@@ -1,12 +1,30 @@
 import {useState, useEffect} from "react";
 import { getGriffinRailData } from "../services/api";
 
+const fetchRailData = async () => {
+    const res = await fetch('/users');
+    const data = await res.json()
+    return data;
+}
+
 function Home() {
     const [griffinRail, setGriffinRail] = useState("./public/trainisthere.png");
     const [error, setError] = useState(null);
     const [loading,SetLoading] = useState(true);
-
     useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const data = await fetchRailData();
+      // do something with data
+      console.log(data);
+    } catch (err) {
+      // handle error
+    }
+  };
+  fetchData();
+}, []);
+
+        /*
         const loadGriffinRail = async () => {
             try {
                 const openOrClosed = await getGriffinRailData();
@@ -25,13 +43,20 @@ function Home() {
                 SetLoading(false)
             }
         }
+        */
 
-        loadGriffinRail();
-    })
+        
+
+
+
+
+
     return (
         <div>
-            <img src={`${griffinRail}`} />
-            <button ></button>
+            <div>
+                <img src={`${griffinRail}`} className="train-image" />
+            </div>
+            <button >click to refresh</button>
         </div>
     );
 }
